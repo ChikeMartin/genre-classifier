@@ -3,55 +3,73 @@
 """ Main lib for audiosep Project
 """
 
-from os.path import split
-import pandas as pd
-import datetime
+import os
+import math
+import json
+import librosa, librosa.display
+import matplotlib.pyplot as plt
+import numpy as np
 
-pd.set_option('display.width', 200)
 
-
-def clean_data(data):
-    """ clean data
-    """
-    # Remove columns starts with vote
-    cols = [x for x in data.columns if x.find('vote') >= 0]
-    data.drop(cols, axis=1, inplace=True)
-    # Remove special characteres from columns
-    data.loc[:, 'civility'] = data['civility'].replace('\.', '', regex=True)
-    # Calculate Age from day of birth
-    actual_year = datetime.datetime.now().year
-    data.loc[:, 'Year_Month'] = pd.to_datetime(data.birthdate)
-    data.loc[:, 'Age'] = actual_year - data['Year_Month'].dt.year
-    # Uppercase variable to avoid duplicates
-    data.loc[:, 'city'] = data['city'].str.upper()
-    # Take 2 first digits, 2700 -> 02700 so first two are region
-    data.loc[:, 'postal_code'] = data.postal_code.str.zfill(5).str[0:2]
-    # Remove columns with more than 50% of nans
-    cnans = data.shape[0] / 2
-    data = data.dropna(thresh=cnans, axis=1)
-    # Remove rows with more than 50% of nans
-    rnans = data.shape[1] / 2
-    data = data.dropna(thresh=rnans, axis=0)
-    # Discretize based on quantiles
-    data.loc[:, 'duration'] = pd.qcut(data['surveyduration'], 10)
-    # Discretize based on values
-    data.loc[:, 'Age'] = pd.cut(data['Age'], 10)
-    # Rename columns
-    data.rename(columns={'q1': 'Frequency'}, inplace=True)
-    # Transform type of columns
-    data.loc[:, 'Frequency'] = data['Frequency'].astype(int)
-    # Rename values in rows
-    drows = {1: 'Manytimes', 2: 'Onetimebyday', 3: '5/6timesforweek',
-             4: '4timesforweek', 5: '1/3timesforweek', 6: '1timeformonth',
-             7: '1/trimestre', 8: 'Less', 9: 'Never'}
-    data.loc[:, 'Frequency'] = data['Frequency'].map(drows)
-    return data
+def save_mfcc(dataset_path, json_path, n_mfcc= 13, n_fft= 2048, hop_length= 512, num_segments= 5):
+    SAMPLE_RATE = 22050
+    DURATION = 30 # seconds per track
+    SAMPLES_PER_TRACK = SAMPLE_RATE * DURATION
+    
+    # dictionary to store data
+    data = {
+        "mapping": [],
+        "mfcc": [],
+        "labels": []
+    }
+    
+    num_samples_per_segment = int(SAMPLES_PER_TRACK / num_segments)
+    expected_nmfcc_vectors_per_segment = math.ceil(num_samples_per_segment / hop_length)
+    
+    # loop through all genres
+    for i, (dirpath, dirnames, filenames) in enumerate(os.walk(dataset_path)):
+        
+        # ensure we are not at root level
+        if dirpath is not dataset_path:
+            # save the semantic label
+            semantic_label = dirpath.split("/")[-1] # genre/blues => ['genre', 'blues']
+            data['mapping'].append(semantic_label)
+            print(f"\nProcessing {semantic_label}")
+            
+            # process files for a specific genre
+            for f in filenames:
+                # load audio file
+                file_path = os.path.join(dirpath, f)
+                signal, sr = librosa.load(file_path, sr=SAMPLE_RATE)
+                
+                # process by segment, extracting mfcc and storing data
+                for s in range(num_segments):
+                    start_sample = num_samples_per_segment * s 
+                    finish_sample = start_sample + num_samples_per_segment
+                    
+                    mfcc = librosa.feature.mfcc(signal[start_sample: finish_sample],
+                                                sr=sr,
+                                                n_fft= n_fft,
+                                                n_mfcc= n_mfcc,
+                                                hop_length = hop_length)
+                    mfcc = mfcc.T
+                    
+                    # store mfcc for segment if it has the expected length
+                    if len(mfcc) == expected_nmfcc_vectors_per_segment:
+                        data["mfcc"].append(mfcc.tolist())
+                        data["labels"].append(i-1)
+                        print(f"{file_path}, segment: {s+1}")
+                        
+        with open(json_path, 'w') as fp:
+            json.dump(data, fp, indent=4)
 
 
 if __name__ == '__main__':
     # For introspections purpose to quickly get this functions on ipython
-    import audiosep
-    folder_source, _ = split(audiosep.__file__)
-    df = pd.read_csv('{}/data/data.csv.gz'.format(folder_source))
-    clean_data = clean_data(df)
-    print(' dataframe cleaned')
+    #import audiosep
+    DATASET_PATH = "../raw_data/genre/genres_original/"
+    JSON_PATH = "../raw_data/genre/data.json "
+    SAMPLE_RATE = 22050
+    DURATION = 30 # seconds per track
+    SAMPLES_PER_TRACK = SAMPLE_RATE * DURATION
+    save_mfcc(DATASET_PATH, JSON_PATH, num_segments=10)
