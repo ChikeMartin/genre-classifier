@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 # Copyright (C) 2018 Jean Bizot <jean@styckr.io>
-""" Main lib for audiosep Project
+""" Preprocessing library for audiosep Project
 """
 
 import os
@@ -9,6 +9,13 @@ import json
 import librosa, librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
+
+# Constants declared
+DATASET_PATH = "../raw_data/genre/genres_original/"
+JSON_PATH = "../raw_data/genre/data.json"
+SAMPLE_RATE = 22050
+DURATION = 30 # seconds per track
+SAMPLES_PER_TRACK = SAMPLE_RATE * DURATION
 
 
 def save_mfcc(dataset_path, json_path, n_mfcc= 13, n_fft= 2048, hop_length= 512, num_segments= 5):
@@ -67,9 +74,4 @@ def save_mfcc(dataset_path, json_path, n_mfcc= 13, n_fft= 2048, hop_length= 512,
 if __name__ == '__main__':
     # For introspections purpose to quickly get this functions on ipython
     #import audiosep
-    DATASET_PATH = "../raw_data/genre/genres_original/"
-    JSON_PATH = "../raw_data/genre/data.json "
-    SAMPLE_RATE = 22050
-    DURATION = 30 # seconds per track
-    SAMPLES_PER_TRACK = SAMPLE_RATE * DURATION
     save_mfcc(DATASET_PATH, JSON_PATH, num_segments=10)
