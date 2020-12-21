@@ -10,3 +10,4 @@ black
 yapf
 python-gitlab
 twine
+mutagen
