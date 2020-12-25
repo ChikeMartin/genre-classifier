@@ -9,5 +9,6 @@ flake8
 black
 yapf
 python-gitlab
+defaultdict
 twine
 mutagen
