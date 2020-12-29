@@ -19,7 +19,7 @@ SAMPLE_RATE = 22050
 DURATION = 30 # seconds per track
 SAMPLES_PER_TRACK = SAMPLE_RATE * DURATION
 
-def save_mfcc(dataset_path, json_path= JSON_PATH_MAIN, n_mfcc= 13, n_fft= 2048, hop_length= 512, num_segments= 5, train=True):
+def save_mfcc(dataset_path, json_path= JSON_PATH_MAIN, n_mfcc= 13, n_fft= 2048, hop_length= 512, num_segments= 5, train=True, verbose= True):
     """
     Takes in a path and outputs json with genre, mfccs and labels
     If train is set to False, the path would be for a new track which would be split into 30 sceonds to match the train
@@ -117,10 +117,12 @@ def save_mfcc(dataset_path, json_path= JSON_PATH_MAIN, n_mfcc= 13, n_fft= 2048, 
                 # store mfcc for segment if it has the expected length
                 if len(mfcc) == expected_nmfcc_vectors_per_segment:
                     data["mfcc"].append(mfcc.tolist())
-                    print(f"{key}, segment: {s+1}")
-                    
-        with open(json_path, 'w') as fp:
-                json.dump(data, fp, indent=4)
+                    if verbose:
+                        print(f"{key}, segment: {s+1}")
+
+        test_input = np.array(data["mfcc"])[..., np.newaxis]  
+
+        return test_input
 
 def load_data(dataset_path):
     with open(dataset_path, "r") as fp:
