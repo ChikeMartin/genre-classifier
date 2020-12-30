@@ -1,70 +1,32 @@
-# Data analysis
-- Document here the project: audiosep
-- Description: Project Description
-- Data Source:
-- Type of analysis:
+# Music Genre Classifier
 
-Please document the project the better you can.
+- Description: 
+A simple music genre classifier using a Convolutional Neural Network.
+This project treats the music genre classification as computer vision problem by extracting MFCC features from the audio signals.
 
-# Stratup the project
+Mel-frequency cepstral coefficients (MFCCs) are coefficients that collectively make up an MFC. They are derived from a type of cepstral representation of the audio clip (a nonlinear "spectrum-of-a-spectrum")- [Wikipedia](https://en.wikipedia.org/wiki/Mel-frequency_cepstrum#:~:text=Mel%2Dfrequency%20cepstral%20coefficients%20(MFCCs,%2Da%2Dspectrum%22).)
 
-The initial setup.
+The representation of the MFCCs are somewhat akin to images in their array shape, dimensions and even visualisation.
+These "images" are then into the CNN model, which still requires a bit more hyperparameter tuning.
 
-Create virtualenv and install the project:
-```bash
-  $ sudo apt-get install virtualenv python-pip python-dev
-  $ deactivate; virtualenv ~/venv ; source ~/venv/bin/activate ;\
-    pip install pip -U; pip install -r requirements.txt
-```
+Asides from the music genre classification itself as an objective, this project also aims to create and display a complete package of reusable blocks of code.
 
-Unittest test:
-```bash
-  $ make clean install test
-```
+- Data Source: [GTZAN Dataset - Music Genre Classification](https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification)
 
-Check for audiosep in gitlab.com/{group}.
-If your project is not set please add it:
+The trained genres in this project and their respective numeric labels are as follows:
+`{0: "Blues",
+  1: "Classical",
+  2: "Country",
+  3: "Disco",
+  4: "Hiphop",
+  5: "Metal",
+  6: "pop",
+  7: "Reggae",
+  8: "Rock"
+  }`
 
-- Create a new project on `gitlab.com/{group}/audiosep`
-- Then populate it:
+        
 
-```bash
-  $ ##   e.g. if group is "{group}" and project_name is "audiosep"
-  $ git remote add origin git@gitlab.com:{group}/audiosep.git
-  $ git push -u origin master
-  $ git push -u origin --tags
-```
+# Preprocessing
 
-Functionnal test with a script:
-```bash
-  $ cd /tmp
-  $ audiosep-run
-```
-# Install
-Go to `gitlab.com/{group}/audiosep` to see the project, manage issues,
-setup you ssh public key, ...
 
-Create a python3 virtualenv and activate it:
-```bash
-  $ sudo apt-get install virtualenv python-pip python-dev
-  $ deactivate; virtualenv -ppython3 ~/venv ; source ~/venv/bin/activate
-```
-
-Clone the project and install it:
-```bash
-  $ git clone gitlab.com/{group}/audiosep
-  $ cd audiosep
-  $ pip install -r requirements.txt
-  $ make clean install test                # install and test
-```
-Functionnal test with a script:
-```bash
-  $ cd /tmp
-  $ audiosep-run
-``` 
-
-# Continus integration
-## Github 
-Every push of `master` branch will execute `.github/workflows/pythonpackages.yml` docker jobs.
-## Gitlab
-Every push of `master` branch will execute `.gitlab-ci.yml` docker jobs.

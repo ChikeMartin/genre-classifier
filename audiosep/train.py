@@ -6,6 +6,8 @@ from audiosep.data import load_data, save_mfcc, split_data
 import joblib
 import pickle
 
+JSON_PATH_MAIN = "../raw_data/genre/data.json"
+
 class Trainer(object):
     
     def __init__(self, json_path, **kwargs):
@@ -49,10 +51,11 @@ class Trainer(object):
         print(train_print)
         print(val_print)
         
-    #def save_model(self):
-    #    """Save the model into a joblib format"""
-    #    joblib.dump(self.model, 'model.joblib')
-    #    print(f"model.joblib saved locally.")
+    def save_model(self, model_name):
+        """Save the model into a HD5 format"""
+        model_path = '../models/'
+        self.model.save(model_path + model_name)
+        print(f"{model_name} saved locally at {model_path + model_name}")
         
     def predict_new_song(self, X):
     
@@ -75,4 +78,10 @@ class Trainer(object):
         print(f"Predicted genre: {self.genres.get(values[index])}")
         
         #return values[index]
+
+if __name__ == "__main__":
+    train = Trainer(JSON_PATH_MAIN)
+    train.train(epochs= 2, verbose= 2)
+    train.evaluate(test= True)
+    train.save_model('genre_model')
         

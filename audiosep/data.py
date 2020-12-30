@@ -51,7 +51,7 @@ def save_mfcc(dataset_path, json_path= JSON_PATH_MAIN, n_mfcc= 13, n_fft= 2048, 
                 print(f"\nProcessing {semantic_label}")
 
                 # process files for a specific genre
-                for f in filenames[:50]:
+                for f in filenames:
                     # load audio file
                     file_path = os.path.join(dirpath, f)
                     signal, sr = librosa.load(file_path, sr=SAMPLE_RATE)
@@ -148,4 +148,4 @@ def split_data(test_size= 0.25, validation_size= 0.2, dataset_path= JSON_PATH_MA
     return X_train, X_val, X_test, y_train, y_val, y_test
 
 if __name__ == "__main__":
-    inputs, targets = load_data()
+    save_mfcc(DATASET_PATH, JSON_PATH_MAIN, num_segments= 10)
