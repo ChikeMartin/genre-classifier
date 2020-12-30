@@ -17,7 +17,7 @@ Asides from the music genre classification itself as an objective, this project 
 
 # Data
 
-- Data Source: [GTZAN Dataset - Music Genre Classification](https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification)
+- Data Source: [GTZAN Dataset - Music Genre Classification](https://www.kaggle.com/andradaolteanu/gtzan-dataset-music-genre-classification) downloaded from Kaggle.
 
 The trained genres in this project and their respective numeric labels are as follows:
 ```json
@@ -54,6 +54,6 @@ The next steps of the project will be:
 - [x] reusable package
 - [ ] hyperparameter tuning 
 - [ ] containerization
-- [ ] deployment
+- [ ] deployment and continuous integration into training.
 
 
