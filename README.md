@@ -11,7 +11,7 @@ The representation of the MFCCs are somewhat akin to images in their array shape
 ![MFCC spectrum](https://haythamfayek.com/assets/posts/post1/filter_banks_raw.jpg)
 Image source: https://haythamfayek.com/
 
-These "images" are then into the CNN model, which still requires a bit more hyperparameter tuning.
+These "images" are then fed into the CNN model, which as of yet still requires a some hyperparameter tuning.
 
 Asides from the music genre classification itself as an objective, this project also aims to create and display a complete package (contained within audiosep) of reusable blocks of code.
 
