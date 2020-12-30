@@ -1,10 +1,10 @@
+import os
+import numpy as np
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras import regularizers
 from audiosep.model import convnet_model
 from audiosep.data import load_data, save_mfcc, split_data
-import joblib
-import pickle
 
 JSON_PATH_MAIN = "../raw_data/genre/data.json"
 
@@ -54,8 +54,9 @@ class Trainer(object):
     def save_model(self, model_name):
         """Save the model into a HD5 format"""
         model_path = '../models/'
-        self.model.save(model_path + model_name)
-        print(f"{model_name} saved locally at {model_path + model_name}")
+        save_format = '.h5'
+        self.model.save(model_path + model_name + save_format)
+        print(f"{model_name}.h5 saved locally at {os.path.abspath(model_path)}")
         
     def predict_new_song(self, X):
     
@@ -79,9 +80,9 @@ class Trainer(object):
         
         #return values[index]
 
-if __name__ == "__main__":
-    train = Trainer(JSON_PATH_MAIN)
-    train.train(epochs= 2, verbose= 2)
-    train.evaluate(test= True)
-    train.save_model('genre_model')
+#if __name__ == "__main__":
+#    train = Trainer(JSON_PATH_MAIN)
+#    train.train(epochs= 2, verbose= 2)
+#    train.evaluate(test= True)
+#    train.save_model('genre_model')
         
