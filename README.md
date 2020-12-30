@@ -42,7 +42,7 @@ The preprocessing steps involved parsing each genre folder, splitting each sampl
 For new data (outside of this dataset), the input is split into 30 second samples followed by the above preprocessing with the exception that instead of being stored, they are passed directly into the model and predictions are made for each segment of each 30-second sample. The maximum occuring prediction is chosen as the song's genre.
 
 The model (not yet tuned) was trained with the following architecture:
-![Model Summary](C:/Users/cezea/Desktop/Capture.png)
+![Model Summary](https://drive.google.com/file/d/1cjn49GjIfAciMGvGgIdIh_FV3Xr9wJZk/view?usp=sharing)
 
 After 30 epochs, a validation accuracy of 75% and loss (sparse categorical crossentropy) of 0.6 was attained. 
 
