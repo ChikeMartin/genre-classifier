@@ -13,7 +13,7 @@ Image source: https://haythamfayek.com/
 
 These "images" are then into the CNN model, which still requires a bit more hyperparameter tuning.
 
-Asides from the music genre classification itself as an objective, this project also aims to create and display a complete package of reusable blocks of code.
+Asides from the music genre classification itself as an objective, this project also aims to create and display a complete package (contained within audiosep) of reusable blocks of code.
 
 # Data
 
