@@ -36,7 +36,7 @@ Data Source: [GTZAN Dataset - Music Genre Classification](https://www.kaggle.com
 Each genre contains hundred 30-second samples.
 
 # Preprocessing and model
-The preprocessing steps involved parsing each genre folder, splitting each sample by an ascertained number of samples (segments) and then generating a set number of MFCCs for each segment. This invariably helps to increase the amount of data. The results are stored in a .json file.
+The preprocessing steps involved parsing each genre folder, splitting each sample by an ascertained number of samples (segments) and then generating a set number of MFCCs for each segment. This invariably helps to increase the amount of training data. The results are stored then in a .json file.
 
 For new data (outside of this dataset), the input is split into 30 second samples followed by the above preprocessing with the exception that instead of being stored, they are passed directly into the model and predictions are made for each segment of each 30-second sample. The maximum occuring prediction is chosen as the song's genre.
 
