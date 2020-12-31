@@ -8,7 +8,7 @@ This project treats the music genre classification as computer vision problem by
 The representation of the MFCCs are somewhat akin to images in their array shape, dimensions and even visualisation as seen below:
 
 ![MFCC spectrum](https://haythamfayek.com/assets/posts/post1/mfcc_raw.jpg)
-Image source: https://haythamfayek.com/
+Image source: https://haythamfayek.com/2016/04/21/speech-processing-for-machine-learning.html
 
 These "images" are then fed into the CNN model, which as of yet still requires a some hyperparameter tuning.
 
